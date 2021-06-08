@@ -9,8 +9,18 @@ class CreatePost extends StatefulWidget{
 
 class _CreatePostState extends State<CreatePost>{
   final _formKey = GlobalKey<FormState>();
+  String title = "";
+  String description = "";
+  final titleController = TextEditingController();
+  final descController = TextEditingController();
   fb.FirebaseStorage storage = fb.FirebaseStorage.instance;
   
+  @override 
+  void dispose(){
+    titleController.dispose();
+    descController.dispose();
+    super.dispose();
+  }
   @override 
   Widget build(BuildContext context){
     // if(_error){
@@ -24,9 +34,12 @@ class _CreatePostState extends State<CreatePost>{
       key: _formKey, 
       child: Column(children: [
         TextFormField(
+          controller: titleController,
           validator: (value){
             if(value==null || value.isEmpty){
               return "Please enter a title";
+            }else{
+              title = value;
             }
           },
           style: TextStyle(
@@ -39,9 +52,12 @@ class _CreatePostState extends State<CreatePost>{
           ),
         ), 
         TextFormField(
+          controller: descController,
           validator: (value){
             if(value==null || value.isEmpty){
               return "Please enter a description"; 
+            }else{
+              description = value;
             }
           }, style:(
             TextStyle(color: Colors.white)
@@ -55,8 +71,15 @@ class _CreatePostState extends State<CreatePost>{
         ElevatedButton(child: Text('Submit'), 
         onPressed: (){
           if (_formKey.currentState!.validate()){
-            print('done');
+            print(title + " " + description);
           }
+          titleController.clear();
+          descController.clear();
+          showDialog(context: context, builder: (context){
+            return AlertDialog(
+              content: Text('Successfully done!'),
+            ); 
+          }); 
         }
         ,
         style: ElevatedButton.styleFrom(
