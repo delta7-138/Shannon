@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'; 
 import 'package:shannon/pages/form.dart'; 
 import 'package:shannon/pages/threads.dart'; 
-
-import 'threads.dart'; 
+import 'package:firebase_core/firebase_core.dart'; 
 
 class DrawerElem{
   String title; 
@@ -22,6 +21,7 @@ class HomePage extends StatefulWidget{
 class _HomePageState extends State<HomePage>{
 
   int _drawerIndex = 0;
+  final Future<FirebaseApp> _init = Firebase.initializeApp();
 
   _selectDrawerElem(int index){
     setState(()=>{
@@ -61,17 +61,27 @@ class _HomePageState extends State<HomePage>{
         }
       )); 
     }
-    return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.deepPurple, 
-      title: Text('Shannon' , style: TextStyle(color: Colors.white)),
-      ),
-      drawer: Drawer(
-        child:
-      ListView(
-        children: drawerElems,
-      ), 
-      ), 
-      body: _getDrawerElem()
-    ); 
+    return FutureBuilder(
+      future: _init, 
+      builder: (context, snapshot){
+      if(snapshot.hasError){
+        return Center(child: Text('Exception Caught' , style: TextStyle(color: Colors.white)));
+      }
+      if(snapshot.connectionState==ConnectionState.done){
+         return Scaffold(
+          appBar: AppBar(backgroundColor: Colors.deepPurple, 
+          title: Text('Shannon' , style: TextStyle(color: Colors.white)),
+          ),
+          drawer: Drawer(
+            child:
+          ListView(
+            children: drawerElems,
+          ), 
+          ), 
+          body: _getDrawerElem()
+        ); 
+      }
+      return Center(child: Text('Loading...' , style: TextStyle(color: Colors.white)));
+    });
   }
 }

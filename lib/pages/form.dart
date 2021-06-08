@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart'; 
 import 'package:flutter/cupertino.dart'; 
+import 'package:firebase_storage/firebase_storage.dart' as fb;
 
 class CreatePost extends StatefulWidget{
   @override 
@@ -8,8 +9,8 @@ class CreatePost extends StatefulWidget{
 
 class _CreatePostState extends State<CreatePost>{
   final _formKey = GlobalKey<FormState>();
+  fb.FirebaseStorage storage = fb.FirebaseStorage.instance;
   
-
   @override 
   Widget build(BuildContext context){
     // if(_error){
