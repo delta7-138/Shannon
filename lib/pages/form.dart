@@ -1,6 +1,9 @@
+// import 'dart:convert';
 import 'package:flutter/material.dart'; 
 import 'package:flutter/cupertino.dart'; 
-import 'package:firebase_storage/firebase_storage.dart' as fb;
+// import 'package:firebase_storage/firebase_storage.dart' as fb;
+import 'package:firebase_database/firebase_database.dart'; 
+// import 'package:firebase_core/firebase_core.dart'; 
 
 class CreatePost extends StatefulWidget{
   @override 
@@ -13,8 +16,22 @@ class _CreatePostState extends State<CreatePost>{
   String description = "";
   final titleController = TextEditingController();
   final descController = TextEditingController();
-  fb.FirebaseStorage storage = fb.FirebaseStorage.instance;
+  final mainDB = FirebaseDatabase.instance.reference();
+  // fb.FirebaseStorage storage = fb.FirebaseStorage.instance;
   
+  // Future<void> uploadThread(String title , String description) async{
+  //   var thread = {'title' : title , 'description' : description}; 
+  //   var jsonString = jsonEncode(thread);
+  //   var bytes = utf8.encode(jsonString);
+  //   var base64String = base64.encode(bytes);
+  //   var uintList = base64.decode(base64String);
+  //   try{
+  //     await storage.ref('/threads').putData(uintList);
+  //   }catch(e){
+
+  //   }
+  // }
+
   @override 
   void dispose(){
     titleController.dispose();
@@ -72,6 +89,7 @@ class _CreatePostState extends State<CreatePost>{
         onPressed: (){
           if (_formKey.currentState!.validate()){
             print(title + " " + description);
+            mainDB.push().set({'title' : title , 'description' : description});
           }
           titleController.clear();
           descController.clear();
