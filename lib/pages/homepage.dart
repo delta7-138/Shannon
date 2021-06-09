@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:shannon/pages/form.dart'; 
 import 'package:shannon/pages/threads.dart'; 
 import 'package:firebase_core/firebase_core.dart'; 
+import 'package:google_fonts/google_fonts.dart';
 
 class DrawerElem{
   String title; 
-  DrawerElem(this.title);
+  Icon icon;
+  DrawerElem(this.title , this.icon);
 }
 
 class HomePage extends StatefulWidget{
   final items = [
-    DrawerElem("Threads"), 
-    DrawerElem("Create a thread")
+    DrawerElem("Threads" ,  Icon(Icons.article_sharp , color: Colors.deepPurpleAccent[400])), 
+    DrawerElem("Create a thread" , Icon(Icons.add_box_sharp , color: Colors.deepPurpleAccent[400]))
   ]; 
   @override 
   _HomePageState createState() => _HomePageState(); 
@@ -21,6 +23,8 @@ class HomePage extends StatefulWidget{
 class _HomePageState extends State<HomePage>{
 
   int _drawerIndex = 0;
+  final ThreadList threadList = ThreadList();
+  final CreatePost createPost = CreatePost();
   final Future<FirebaseApp> _init = Firebase.initializeApp();
 
   _selectDrawerElem(int index){
@@ -33,9 +37,9 @@ class _HomePageState extends State<HomePage>{
    _getDrawerElem(){
     switch(_drawerIndex){
       case 0:
-        return ThreadList(); 
+        return threadList;
       case 1:
-        return CreatePost();
+        return createPost;
     }
   }
 
@@ -45,7 +49,7 @@ class _HomePageState extends State<HomePage>{
     drawerElems.add(DrawerHeader(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/shannon_betty.jpg'), 
+          image: AssetImage('assets/shannon_claude.png'), 
           fit: BoxFit.cover
         )
       ),
@@ -54,7 +58,8 @@ class _HomePageState extends State<HomePage>{
     for(var i = 0; i<widget.items.length; i++){
       var tmp = widget.items[i]; 
       drawerElems.add(ListTile(
-        title: Text(tmp.title , style: TextStyle(color: Colors.deepPurple , fontSize: 15.0)), 
+        leading: tmp.icon, 
+        title: Text(tmp.title , style: TextStyle(color: Colors.deepPurpleAccent[400], fontSize: 15.0)), 
         selected: i==_drawerIndex, 
         onTap: (){
           _selectDrawerElem(i);
@@ -69,15 +74,17 @@ class _HomePageState extends State<HomePage>{
       }
       if(snapshot.connectionState==ConnectionState.done){
          return Scaffold(
-          appBar: AppBar(backgroundColor: Colors.deepPurple, 
-          title: Text('Shannon' , style: TextStyle(color: Colors.white)),
+          appBar: AppBar(backgroundColor: Colors.deepPurpleAccent[400], 
+          title: Text('Shannon' , style: GoogleFonts.getFont('Press Start 2P' , textStyle: TextStyle(color: Colors.white)))
           ),
-          drawer: Drawer(
-            child:
-          ListView(
-            children: drawerElems,
-          ), 
-          ), 
+          drawer: Drawer(child:
+            Container( 
+              color: Colors.black, 
+              child:
+            ListView(
+              children: drawerElems,
+            ), 
+            )), 
           body: _getDrawerElem()
         ); 
       }

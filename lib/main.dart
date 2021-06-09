@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Shannon',
-      theme: new ThemeData(scaffoldBackgroundColor: Colors.black38 , accentColor: Colors.deepPurple, 
+      theme: new ThemeData(scaffoldBackgroundColor: Colors.black38 , accentColor: Colors.red[900], 
           textTheme: TextTheme(
           bodyText1: GoogleFonts.getFont('Roboto Mono' , textStyle: TextStyle(color: Colors.white)),
           bodyText2: GoogleFonts.getFont('Roboto Mono' , textStyle: TextStyle(color: Colors.white)),

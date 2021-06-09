@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart'; 
 import 'package:flutter/cupertino.dart'; 
 // import 'package:firebase_storage/firebase_storage.dart' as fb;
-import 'package:firebase_database/firebase_database.dart'; 
+import 'package:firebase_database/firebase_database.dart';
+import 'package:google_fonts/google_fonts.dart'; 
 // import 'package:firebase_core/firebase_core.dart'; 
 
 class CreatePost extends StatefulWidget{
@@ -17,20 +18,6 @@ class _CreatePostState extends State<CreatePost>{
   final titleController = TextEditingController();
   final descController = TextEditingController();
   final mainDB = FirebaseDatabase.instance.reference();
-  // fb.FirebaseStorage storage = fb.FirebaseStorage.instance;
-  
-  // Future<void> uploadThread(String title , String description) async{
-  //   var thread = {'title' : title , 'description' : description}; 
-  //   var jsonString = jsonEncode(thread);
-  //   var bytes = utf8.encode(jsonString);
-  //   var base64String = base64.encode(bytes);
-  //   var uintList = base64.decode(base64String);
-  //   try{
-  //     await storage.ref('/threads').putData(uintList);
-  //   }catch(e){
-
-  //   }
-  // }
 
   @override 
   void dispose(){
@@ -40,14 +27,8 @@ class _CreatePostState extends State<CreatePost>{
   }
   @override 
   Widget build(BuildContext context){
-    // if(_error){
-    //   return Center(child: Text('Exception caught'));
-    // }
-    // if(! _init){
-    //   return Center(child: Text('Loading right now'));
-    // }
       return Scaffold(
-      body: ExpansionTile(title: Text('Create a thread' , style: TextStyle(color: Colors.white)) , children: [Form(
+      body: ExpansionTile(title: Text('Create a thread' , style: GoogleFonts.getFont('Source Code Pro' , textStyle: TextStyle(color: Colors.red[900]))) , children: [Form(
       key: _formKey, 
       child: Column(children: [
         TextFormField(
@@ -59,9 +40,7 @@ class _CreatePostState extends State<CreatePost>{
               title = value;
             }
           },
-          style: TextStyle(
-            color: Colors.white
-          ), 
+          style: GoogleFonts.getFont('Source Code Pro' , textStyle: TextStyle(color: Colors.red[900])), 
           decoration: const InputDecoration(
             contentPadding: EdgeInsets.all(15),
             hintText: 'Enter the title for the post', 
@@ -76,9 +55,7 @@ class _CreatePostState extends State<CreatePost>{
             }else{
               description = value;
             }
-          }, style:(
-            TextStyle(color: Colors.white)
-          ), 
+          }, style:GoogleFonts.getFont('Source Code Pro' , textStyle: TextStyle(color: Colors.red[900])), 
           decoration: const InputDecoration(
             contentPadding: EdgeInsets.all(15),
             hintText: 'Enter the description for the post', 
