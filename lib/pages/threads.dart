@@ -1,5 +1,7 @@
 //import 'package:firebase_core/firebase_core.dart';
 //import 'dart:convert';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import "package:flutter/material.dart"; 
 import "package:flutter/cupertino.dart"; 
 import "package:firebase_database/firebase_database.dart";
@@ -17,22 +19,35 @@ class ThreadList extends StatefulWidget{
 }
 
 class _ThreadListState extends State<ThreadList>{
-  final mainDB = FirebaseDatabase.instance.reference();
+  Query _mainDB = FirebaseDatabase.instance.reference();
   List <Thread> threadList = [];
+  List <Widget> listItems = [];
 
-  
   @override 
-  Widget build(BuildContext context){
-    List<Container> listItems = [];
-    for(int i = 0; i<threadList.length; i++){
-      var thread = threadList.elementAt(i);
-      var item = new Container(child: ExpansionTile(title: Row(children: [Expanded(
-        child: Text(thread.title , style : GoogleFonts.getFont('Source Code Pro' , textStyle: TextStyle(color: Colors.red[900])))), Icon(Icons.article_sharp ,color: Colors.red[900])]))
-      );
-      listItems.add(item);
-    }
-    return Scaffold(
-      body: ListView(children: listItems)
-    );
+  void initState(){
+    super.initState();
+    _mainDB = FirebaseDatabase.instance.reference();
   }
-}
+  void flushData(){
+    threadList = [];
+  }
+
+  @override 
+
+  Widget build(BuildContext context){ 
+    return Scaffold(
+      body: Container(
+        child: FirebaseAnimatedList(query: _mainDB , itemBuilder:(BuildContext context , DataSnapshot snapshot , Animation<double>anim , int x){
+          return Container(decoration : BoxDecoration(border : Border.all(width : 0.5 , color: Colors.white)) , margin: EdgeInsets.all(8), child: ExpansionTile(title:Text(snapshot.value["title"] , style:
+          GoogleFonts.getFont('Source Code Pro' , textStyle: TextStyle(color: Colors.red[900])),), 
+          children: [
+            Container(child:  
+              Text(snapshot.value["description"] , style: GoogleFonts.getFont('Source Code Pro' , textStyle: TextStyle(color : Colors.limeAccent))), 
+              padding: EdgeInsets.all(10), 
+              margin : EdgeInsets.all(15)
+            )
+          ],));
+        } )
+      )
+    );
+}}

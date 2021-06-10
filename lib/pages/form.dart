@@ -78,7 +78,8 @@ class _CreatePostState extends State<CreatePost>{
         }
         ,
         style: ElevatedButton.styleFrom(
-          primary: Colors.deepPurple
+          primary: Colors.deepPurpleAccent[400], 
+          textStyle: GoogleFonts.getFont('Press Start 2P' , textStyle: TextStyle(color: Colors.white))
         ))
       ],)
     )])); 

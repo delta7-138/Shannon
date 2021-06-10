@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'; 
 import 'package:shannon/pages/form.dart'; 
 import 'package:shannon/pages/threads.dart'; 
+import 'package:shannon/pages/home.dart'; 
 import 'package:firebase_core/firebase_core.dart'; 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,6 +14,7 @@ class DrawerElem{
 
 class HomePage extends StatefulWidget{
   final items = [
+    DrawerElem("Home" , Icon(Icons.home , color: Colors.deepPurpleAccent[400])), 
     DrawerElem("Threads" ,  Icon(Icons.article_sharp , color: Colors.deepPurpleAccent[400])), 
     DrawerElem("Create a thread" , Icon(Icons.add_box_sharp , color: Colors.deepPurpleAccent[400]))
   ]; 
@@ -23,8 +25,6 @@ class HomePage extends StatefulWidget{
 class _HomePageState extends State<HomePage>{
 
   int _drawerIndex = 0;
-  final ThreadList threadList = ThreadList();
-  final CreatePost createPost = CreatePost();
   final Future<FirebaseApp> _init = Firebase.initializeApp();
 
   _selectDrawerElem(int index){
@@ -36,10 +36,12 @@ class _HomePageState extends State<HomePage>{
 
    _getDrawerElem(){
     switch(_drawerIndex){
-      case 0:
-        return threadList;
+      case 0: 
+        return Home();
       case 1:
-        return createPost;
+        return ThreadList();
+      case 2:
+        return CreatePost();
     }
   }
 
